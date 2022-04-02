@@ -24,8 +24,11 @@ function handleHtml(html){
         //console.log(selecTool(anchorElemArr[i]).text());
         //console.log(selecTool(anchorElemArr[i]).attr("href"));
         let relativeLink = selecTool(anchorElemArr[i]).attr("href");
+        //let techName = relativeLink.split("/");
+        //console.log(techName[2]);
         let fullLink = "https://github.com" + relativeLink;
-        //console.log(fullLink);
+        //console.log("From Main.js "+fullLink);
+        
         getTopics.gt(fullLink);
         //break;
     }
