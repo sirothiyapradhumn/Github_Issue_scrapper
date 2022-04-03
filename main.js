@@ -3,6 +3,8 @@ let url = "https://github.com/topics";
 const request = require("request");
 const cheerio = require("cheerio");
 const getTopics = require("./allTopics");
+const fs = require("fs");
+const path = require("path");
 
 request(url,cb);
 
@@ -14,6 +16,12 @@ function cb (err, res, body){
         handleHtml(body);
     }
 }
+
+let topicspath = path.join(__dirname, "Topic Name");
+if(!fs.existsSync(topicspath)){
+    fs.mkdirSync(topicspath);
+}
+
 
 function handleHtml(html){
     let selecTool = cheerio.load(html);

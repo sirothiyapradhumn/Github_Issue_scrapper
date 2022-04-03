@@ -1,6 +1,8 @@
 const request = require("request");
 const cheerio = require("cheerio");
 const issue = require("./issues");
+const fs = require("fs");
+const path = require("path");
 
 function getTopics(url){
     request(url,cb);
@@ -23,16 +25,17 @@ function extractTopics(html){
     let headerElem = selecTool('h1[class="h1"]');
     let techName = selecTool(headerElem).text();
     console.log(techName);
-    for(let i = 0; i<8; i++){
+    for(let i = 0; i<2; i++){
         let relativeLinkOfRep = selecTool(anchorElemOfRepoArr[i]).attr("href");
         
         
         let fullLinkOfRep = "https://github.com" +relativeLinkOfRep +"/issues";
-        //console.log(fullLinkOfRep);
-        issue.isuues(fullLinkOfRep);
+        console.log(fullLinkOfRep);
+        issue.isuues(fullLinkOfRep, techName);
         
         //break;
     }
+
 }
 
 
