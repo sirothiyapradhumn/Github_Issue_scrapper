@@ -26,8 +26,6 @@ function extractTopics(html){
     //console.log("tech--- "+techName);
     for(let i = 0; i<8; i++){
         let relativeLinkOfRep = selecTool(anchorElemOfRepoArr[i]).attr("href");
-        
-        
         let fullLinkOfRep = "https://github.com" +relativeLinkOfRep +"/issues";
         let repo = fullLinkOfRep.split("/")[4];
         //console.log("repo ----- "+repo);

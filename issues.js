@@ -32,9 +32,11 @@ function getIssues(url, techName, repoName){
         }
 
         let topicPath = path.join(__dirname, "Topic Name",techName);
+        // processDir  function - > making tech vise folder
         processDir(topicPath);
         let filePath = path.join(topicPath, repoName+".pdf" );
         //let issueLinkText = JSON.stringify(arrForIssueLink);
+        //writePdf -> wite the content of arrOfContent into a pdf
         writePdf(filePath, repoName, arrOfContent);
 
         // for(let i = 0; i<arrOfContent.length; i++){
