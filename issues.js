@@ -33,7 +33,10 @@ function getIssues(url, techName, repoName){
             let fullLinkOfIssues = "https://github.com" + relativeLinkOfIssue;
             arrForIssueLink.push(fullLinkOfIssues);
             //console.log(fullLinkOfIssues);
-            processDir(techName, repoName, arrForIssueLink, arrForIssueName);
+            let topicPath = path.join(__dirname, "Topic Name",techName);
+            processDir(topicPath);
+            let filePath = path.join(topicPath, repoName+".json" );
+            fs.writeFileSync(filePath, JSON.stringify(arrForIssueLink));
         }
         
         for(let i = 0; i<arrForIssueLink.length; i++){
@@ -43,14 +46,10 @@ function getIssues(url, techName, repoName){
         console.log("~~~~~~");
     }
     
-    function processDir(techName, repoName, arrForIssueLink, arrForIssueName){
-        let topicName = path.join(__dirname, "Topic Name",techName);
-            if(!fs.existsSync(topicName)){
-            fs.mkdirSync(topicName);
+    function processDir(topicPath){
+        if(!fs.existsSync(topicPath)){
+            fs.mkdirSync(topicPath);
         }
-
-        let filePath = path.join(topicName, repoName+".pdf" );
-        
     }
 }
 
