@@ -22,7 +22,7 @@ function getIssues(url, techName, repoName){
         let anchorElemArrOfIssues = selecTool('a[class="Link--primary v-align-middle no-underline h4 js-navigation-open markdown-title"]');
         let arrOfContent = [];
     
-        for(let i = 0; i<5; i++){
+        for(let i = 0; i<8; i++){
             let issueName = selecTool(anchorElemArrOfIssues[i]).text();
             let relativeLinkOfIssue = selecTool(anchorElemArrOfIssues[i]).attr("href");
             let fullLinkOfIssues = "https://github.com" + relativeLinkOfIssue;
