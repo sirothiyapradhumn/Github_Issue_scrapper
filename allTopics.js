@@ -18,20 +18,19 @@ function cb (err, res, body){
     }
 }
 
-
 function extractTopics(html){
     let selecTool = cheerio.load(html);
     let anchorElemOfRepoArr = selecTool('a[class="text-bold wb-break-word"]');
     let headerElem = selecTool('h1[class="h1"]');
     let techName = headerElem.text().trim();
-    console.log("tech--- "+techName);
-    for(let i = 0; i<2; i++){
+    //console.log("tech--- "+techName);
+    for(let i = 0; i<8; i++){
         let relativeLinkOfRep = selecTool(anchorElemOfRepoArr[i]).attr("href");
         
         
         let fullLinkOfRep = "https://github.com" +relativeLinkOfRep +"/issues";
         let repo = fullLinkOfRep.split("/")[4];
-        console.log("repo ----- "+repo);
+        //console.log("repo ----- "+repo);
         console.log(fullLinkOfRep);
         issue.isuues(fullLinkOfRep, techName, repo);
         
@@ -39,8 +38,6 @@ function extractTopics(html){
     }
 
 }
-
-
 
 module.exports = {
     gt : getTopics

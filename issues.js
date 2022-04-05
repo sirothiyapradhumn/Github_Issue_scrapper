@@ -1,8 +1,8 @@
 const request = require("request");
 const cheerio = require("cheerio");
-const jspdf = require("jspdf");
 const fs = require("fs");
 const path = require("path");
+const pdfkit = require("pdfkit");
 
 function getIssues(url, techName, repoName){
     
@@ -17,39 +17,44 @@ function getIssues(url, techName, repoName){
         }
     }
     
-    
-
     function extractTopicsIssues(html){
         let selecTool = cheerio.load(html);
         let anchorElemArrOfIssues = selecTool('a[class="Link--primary v-align-middle no-underline h4 js-navigation-open markdown-title"]');
-        console.log("         -----------------------       ");
-        let arrForIssueLink = [];
-        let arrForIssueName = [];
+        let arrOfContent = [];
     
         for(let i = 0; i<5; i++){
-            let relativeLinkOfIssue = selecTool(anchorElemArrOfIssues[i]).attr("href");
             let issueName = selecTool(anchorElemArrOfIssues[i]).text();
-            arrForIssueName.push(issueName);
+            let relativeLinkOfIssue = selecTool(anchorElemArrOfIssues[i]).attr("href");
             let fullLinkOfIssues = "https://github.com" + relativeLinkOfIssue;
-            arrForIssueLink.push(fullLinkOfIssues);
             //console.log(fullLinkOfIssues);
-            let topicPath = path.join(__dirname, "Topic Name",techName);
-            processDir(topicPath);
-            let filePath = path.join(topicPath, repoName+".json" );
-            fs.writeFileSync(filePath, JSON.stringify(arrForIssueLink));
+            let content = issueName +" --> "+fullLinkOfIssues;
+            arrOfContent.push(content);  
         }
+
+        let topicPath = path.join(__dirname, "Topic Name",techName);
+        processDir(topicPath);
+        let filePath = path.join(topicPath, repoName+".pdf" );
+        //let issueLinkText = JSON.stringify(arrForIssueLink);
+        writePdf(filePath, repoName, arrOfContent);
+
+        // for(let i = 0; i<arrOfContent.length; i++){
+        //     console.log(arrOfContent[i]);
         
-        for(let i = 0; i<arrForIssueLink.length; i++){
-            console.log(arrForIssueName[i] + " ---->> "+arrForIssueLink[i]);
-        
-        }
-        console.log("~~~~~~");
+        // }
     }
     
     function processDir(topicPath){
         if(!fs.existsSync(topicPath)){
             fs.mkdirSync(topicPath);
         }
+    }
+
+    function writePdf(filePath, repoName, arrOfContent){
+        let pdfDoc = new pdfkit();
+        pdfDoc.pipe(fs.createWriteStream(filePath));
+        pdfDoc.fillColor('blue').fontSize(25).text(repoName);
+        pdfDoc.fillColor('black').fontSize(13).list(arrOfContent);
+        pdfDoc.end();
     }
 }
 
